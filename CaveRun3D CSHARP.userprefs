@@ -1,0 +1,14 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\CaveRun3D Assets\Scripts\CSharp\Gem.cs">
+    <Files>
+      <File FileName="Assets\CaveRun3D Assets\Scripts\CSharp\PlayerControls.cs" Line="301" Column="1" />
+      <File FileName="Assets\CaveRun3D Assets\Scripts\CSharp\Gem.cs" Line="51" Column="23" />
+      <File FileName="Assets\CaveRun3D Assets\Scripts\CSharp\Obstacle.cs" Line="78" Column="3" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
