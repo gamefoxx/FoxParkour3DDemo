@@ -46,10 +46,12 @@ public class PlayerControls : MonoBehaviour
     public AudioClip StepSound;
     public AudioClip CrashSound;
 
-    public float CameraFollowSpeed = 0.2f; //How quickly the camera follows the player's position
-
-    internal float JumpChange = 1f; //How much the jump power is affected. 1 means jumping is normal. less than 1 means jumps are much weaker
-    internal float JumpChangeTime = 0f; //How long to keep the jump change, in seconds
+	//...
+	public float CameraFollowSpeed = 0.2f; //How quickly the camera follows the player's position
+	internal float JumpChange = 1f; //How much the jump power is affected. 1 means jumping is normal. less than 1 means jumps are much weaker
+	internal float JumpChangeTime = 0f; //How long to keep the jump change, in seconds
+	public enum PlayerState{normal,noControl};
+	public PlayerState playerState = PlayerState.normal;
 
     void Start()
     {
@@ -57,28 +59,24 @@ public class PlayerControls : MonoBehaviour
         GameController = GameObject.FindWithTag("GameController"); //Find the Game Controller in the scene and put it in a variable, for later use
 
         InitPos = transform.position; //Set the initial position of the player
-
         //animation.CrossFade("Fall"); //Start playing the fall animation
-
         //Camera.main.GetComponent<Shake>().shake = GameController.GetComponent<GameController>().LevelUpRumble; //shake the camera
-
-
         animation.Play("Run");
         animation["Run"].speed = 0.1f; //set animation speed be based on the player's actual speed
         animation["Run"].wrapMode = WrapMode.PingPong;
 
 		rigidbody.velocity = new Vector3(0.0f, 0.0f, Speed); //Give the player an up velocity
+		PlayerState playerState = PlayerState.normal;
     }
 
     void Update()
     {
          //Make the camera follow the player
-        //Camera.main.transform.LookAt(transform.position);
-
-		Camera.main.transform.position = new Vector3(Camera.main.transform.position.x,transform.position.y+5.0f,transform.position.z);
-
+		Camera.main.transform.position = new Vector3(transform.position.x + 10.0f,transform.position.y+5.0f,transform.position.z);
 		Camera.main.transform.LookAt(transform.position);
 
+		if (playerState == PlayerState.normal)
+		{
 		rigidbody.velocity = new Vector3(rigidbody.velocity.x, rigidbody.velocity.y, Speed); //Give the player an up velocity
   
 		if (JumpChangeTime > 0) //As long as the value of JumpChangeTime is larger than 0, keep the change
@@ -106,7 +104,7 @@ public class PlayerControls : MonoBehaviour
 		if (Input.GetButtonDown("Jump") && JumpState == 2) //If we press the jump button while falling the first time, perform a double jump
 		{
 			JumpState = 3; //double jump
-			rigidbody.velocity = new Vector3(rigidbody.velocity.y, JumpPower * 0.7f * JumpChange, rigidbody.velocity.z); //Give the player an up velocity, which is a little weaker than the first jump
+			rigidbody.velocity = new Vector3(rigidbody.velocity.x, JumpPower * 0.7f * JumpChange, rigidbody.velocity.z); //Give the player an up velocity, which is a little weaker than the first jump
 			audio.PlayOneShot(JumpSound); //Play a jump sound
 		}
 		else if (Input.GetButtonUp("Jump") && rigidbody.velocity.y > -1 && JumpState == 3) //If we release the jump button while double jumping, reduce the up velocity to third of its power, making the player fall quickly
@@ -118,6 +116,7 @@ public class PlayerControls : MonoBehaviour
 		if (rigidbody.velocity.y < 0 && JumpState == 3) //If we've fallen after double jumping, change the animation to falling 
 		{
 			JumpState = 4; //fall after double jump
+		}
 		}
 
 
